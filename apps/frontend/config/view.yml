@@ -1,0 +1,20 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        Octoboard
+    description:  Status board of GitHub usage
+    #keywords:     symfony, project
+    language:     en
+    robots:       index, follow
+
+  stylesheets:    [vendor/bootstrap.min.css,main.css]
+
+  javascripts:    [vendor/jquery-1.7.1.min.js,vendor/jquery-ui-1.8.18.custom.min.js,vendor/bootstrap.min.js]
+
+  has_layout:     true
+  layout:         layout

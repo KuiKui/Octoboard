@@ -1,0 +1,14 @@
+propel:
+  _attributes:
+    package: lib.model
+    defaultIdMethod: native
+
+  entity:
+    id:             ~
+    name:           { type: varchar, size: '255', required: true }
+    value:          { type: integer, size: '11', required: true }
+    average_value:  { type: decimal, size: '17', scale: '6', required: false }
+    average_count:  { type: integer, size: '11', required: false }
+    history:        { type: varchar, size: '255', required: false }
+    created_at:     ~
+    updated_at:     ~

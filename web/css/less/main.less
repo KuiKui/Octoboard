@@ -1,0 +1,24 @@
+@import "_tolebo.less";
+
+@backgroundColor: #333;
+@textColor: #b5b5bc;
+@linkColor: #b0b0ee;
+
+body {
+  background-color: @backgroundColor;
+  color: @textColor;
+
+  a {
+    color: @linkColor;
+    text-decoration: none;
+
+    &:hover {
+      color: @linkColor;
+      text-decoration: underline;
+    }
+  }
+
+  #footer {
+    text-align: center;
+  }
+}

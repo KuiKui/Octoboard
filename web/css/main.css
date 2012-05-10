@@ -1,0 +1,13 @@
+body {
+  background-color:#333333;
+  color:#b5b5bc;
+}
+body a {
+  color:#b0b0ee;
+  text-decoration:none;
+}
+body a:hover {
+  color:#b0b0ee;
+  text-decoration:underline;
+}
+body #footer { text-align:center; }
