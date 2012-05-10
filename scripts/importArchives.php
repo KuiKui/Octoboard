@@ -31,11 +31,12 @@ $result = array(
   'pullrequest-merged' => 0,
   'issue-new' => 0,
   'issue-fixed' => 0,
+  'ghpages-new' => 0,
   'open-sourced' => 0,
   'gist-new' => 0
 );
 
-for($hour = 14; $hour <= 15; $hour++)
+for($hour = 0; $hour <= 23; $hour++)
 {
   $archiveName = sprintf('%s-%s', $day, $hour);
 
@@ -60,6 +61,10 @@ for($hour = 14; $hour <= 15; $hour++)
           if($data['payload']['ref_type'] == 'repository')
           {
             $result['repository-new']++;
+          }
+          else if($data['payload']['ref'] == 'gh-pages')
+          {
+            $result['ghpages-new']++;
           }
           break;
 
