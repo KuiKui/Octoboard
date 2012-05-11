@@ -5,6 +5,7 @@ body {
 body a {
   color:#b0b0ee;
   text-decoration:none;
+  font-weight:bold;
 }
 body a:hover {
   color:#b0b0ee;

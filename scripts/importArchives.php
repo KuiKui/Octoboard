@@ -6,13 +6,24 @@ sfContext::createInstance($configuration);
 
 if(count($argv) < 2)
 {
-  $day = strtotime('yesterday');
-  $day = date('Y-m-d', $day);
+  $firstDay = strtotime('yesterday');
+  $firstDay = date('Y-m-d', $firstDay);
 }
 else
 {
-  $day = $argv[1]; 
+  $firstDay = $argv[1]; 
 }
+
+if(count($argv) < 3)
+{
+  $lastDay = $firstDay;
+}
+else
+{
+  $lastDay = $argv[2];
+}
+
+$days = myDate::dateRangeArray($firstDay, $lastDay);
 
 $importDir = sfConfig::get('sf_data_dir').DIRECTORY_SEPARATOR.'import';
 
@@ -22,97 +33,144 @@ if(chdir($importDir) === false)
   exit(1);
 }
 
-echo "Delete old files\n\n";
-exec('rm -f *');
-
-$result = array(
-  'repository-new' => 0,
-  'pullrequest-new' => 0,
-  'pullrequest-merged' => 0,
-  'issue-new' => 0,
-  'issue-fixed' => 0,
-  'ghpages-new' => 0,
-  'open-sourced' => 0,
-  'gist-new' => 0
-);
-
-for($hour = 0; $hour <= 23; $hour++)
+foreach($days as $day)
 {
-  $archiveName = sprintf('%s-%s', $day, $hour);
-
-  echo "Archive : ".$archiveName."\n";
-  echo "Download archive\n";
-  exec(sprintf('wget http://data.githubarchive.org/%s.json.gz >/dev/null 2>&1', $archiveName));
-  echo "Unzip archive\n";  
-  exec(sprintf('gunzip %s.json.gz >/dev/null', $archiveName));
-  echo "Split archive\n";  
-  exec(sprintf("sed %s %s.json > %s.json.line\n", escapeshellarg('s/}{/}\n{/g'), $archiveName, $archiveName));
-  echo "Import archive\n";
+  echo "Import [".$day."]\n";
+  exec('rm -f *');
   
-  $filename = $importDir.DIRECTORY_SEPARATOR.$archiveName.'.json.line';
-
-  $fp = @fopen($filename, "r");
-  if ($fp) {
-    while (($line = fgets($fp, 4096)) !== false) {
-      $data = json_decode($line, true);
-      switch($data['type'])
-      {
-        case 'CreateEvent':
-          if($data['payload']['ref_type'] == 'repository')
-          {
-            $result['repository-new']++;
-          }
-          else if($data['payload']['ref'] == 'gh-pages')
-          {
-            $result['ghpages-new']++;
-          }
-          break;
-
-        case 'PullRequestEvent':
-          if($data['payload']['action'] == 'opened')
-          {
-            $result['pullrequest-new']++;
-          }
-          break;
-
-        case 'IssuesEvent':
-          if($data['payload']['action'] == 'opened')
-          {
-            $result['issue-new']++;
-          }
-          else if($data['payload']['action'] == 'closed')
-          {
-            $result['issue-fixed']++;
-          }
-          break;
-        
-        case 'ForkApplyEvent':
-          $result['pullrequest-merged']++;
-          break;
-
-        case 'PublicEvent':
-          $result['open-sourced']++;
-          break;
-
-        case 'GistEvent':
-          if($data['payload']['action'] == 'create')
-          {
-            $result['gist-new']++;
-          }
-          break;
-
-        default:
-          //echo $data['type']."\n";
-          break;
+  $result = array(
+    'repository-new' => 0,
+    'pullrequest-new' => 0,
+    'pullrequest-merged' => 0,
+    'issue-new' => 0,
+    'issue-fixed' => 0,
+    'ghpages-new' => 0,
+    'open-sourced' => 0,
+    'gist-new' => 0
+  );
+  
+  for($hour = 0; $hour <= 23; $hour++)
+  {
+    $archiveName = sprintf('%s-%s', $day, $hour);
+  
+    echo "Archive : ".$archiveName."\n";
+    exec(sprintf('wget http://data.githubarchive.org/%s.json.gz >/dev/null 2>&1', $archiveName));
+    exec(sprintf('gunzip %s.json.gz >/dev/null', $archiveName));
+    exec(sprintf("sed %s %s.json > %s.json.line\n", escapeshellarg('s/}{/}\n{/g'), $archiveName, $archiveName));
+    
+    $filename = $importDir.DIRECTORY_SEPARATOR.$archiveName.'.json.line';
+  
+    $fp = @fopen($filename, "r");
+    if ($fp) {
+      while (($line = fgets($fp, 4096)) !== false) {
+        $data = json_decode($line, true);
+        switch($data['type'])
+        {
+          case 'CreateEvent':
+            if($data['payload']['ref_type'] == 'repository')
+            {
+              $result['repository-new']++;
+            }
+            else if($data['payload']['ref'] == 'gh-pages')
+            {
+              $result['ghpages-new']++;
+            }
+            break;
+  
+          case 'PullRequestEvent':
+            if($data['payload']['action'] == 'opened')
+            {
+              $result['pullrequest-new']++;
+            }
+            break;
+  
+          case 'IssuesEvent':
+            if($data['payload']['action'] == 'opened')
+            {
+              $result['issue-new']++;
+            }
+            else if($data['payload']['action'] == 'closed')
+            {
+              $result['issue-fixed']++;
+            }
+            break;
+          
+          case 'ForkApplyEvent':
+            $result['pullrequest-merged']++;
+            break;
+  
+          case 'PublicEvent':
+            $result['open-sourced']++;
+            break;
+  
+          case 'GistEvent':
+            if($data['payload']['action'] == 'create')
+            {
+              $result['gist-new']++;
+            }
+            break;
+  
+          default:
+            //echo $data['type']."\n";
+            break;
+        }
       }
+      if (!feof($fp)) {
+        echo "Error: unexpected fgets() fail\n";
+        exit(1);
+      }
+      fclose($fp);
     }
-    if (!feof($fp)) {
-      echo "Error: unexpected fgets() fail\n";
-      exit(1);
+  }
+
+  echo "Save in DB...";
+  foreach($result as $entityName => $entityValue)
+  {
+    $entity = EntityQuery::create()
+      ->filterByName($entityName)
+      ->findOne()
+    ;
+    
+    if(!$entity)
+    {
+      $entity = new Entity();
+      $entity
+        ->setName($entityName)
+        ->setValue(0)
+        ->setAverageValue(0)
+        ->setAverageCount(0)
+        ->setGapValue(0)
+        ->setGapPercentage(0)
+        ->save();
     }
-    fclose($fp);
+    
+    if($entity)
+    {
+      $tmpValue = $entity->getAverageValue() * $entity->getAverageCount();
+      $newCount = $entity->getAverageCount() + 1;
+      $average = ($tmpValue + $entityValue) / $newCount;
+      $gapValue = $entityValue - $average;
+      $gapPercentage = floatval(round(($average) ? $gapValue * 100 / $average : 0, 2));
+  
+      $history = json_decode($entity->getHistory(), true);
+      $history[$day] = array('v' => $entityValue, 'gp' => $gapPercentage);
+      if(count($history) > 8)
+      {
+        array_shift($history);
+      }
+  
+      $entity
+        ->setValue($entityValue)
+        ->setAverageCount($newCount)
+        ->setAverageValue($average)
+        ->setGapValue($gapValue)
+        ->setGapPercentage($gapPercentage)
+        ->setHistory(json_encode($history))
+        ->save()
+      ;
+    }
   }
   echo "Done.\n\n";
 }
 
-var_dump($result);
+exec('rm -f *');

@@ -43,7 +43,9 @@ class EntityTableMap extends TableMap
 		$this->addColumn('VALUE', 'Value', 'INTEGER', true, 11, null);
 		$this->addColumn('AVERAGE_VALUE', 'AverageValue', 'DECIMAL', false, 17, null);
 		$this->addColumn('AVERAGE_COUNT', 'AverageCount', 'INTEGER', false, 11, null);
-		$this->addColumn('HISTORY', 'History', 'VARCHAR', false, 255, null);
+		$this->addColumn('GAP_VALUE', 'GapValue', 'DECIMAL', false, 17, null);
+		$this->addColumn('GAP_PERCENTAGE', 'GapPercentage', 'DECIMAL', false, 5, null);
+		$this->addColumn('HISTORY', 'History', 'VARCHAR', true, 1023, '[]');
 		$this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
 		$this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);
 		// validators
