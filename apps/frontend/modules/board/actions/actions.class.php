@@ -12,5 +12,19 @@ class boardActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
+    $entities = EntityQuery::create()
+      ->orderById()
+      ->find()
+    ;
+
+    $this->entities = array();
+    foreach($entities as $entity)
+    {
+      $this->entities[] = array(
+        'name' => $entity->getName(),
+        'average' => $entity->getAverageValue(),
+        'values' => json_decode($entity->getHistory(), true)
+      );
+    }
   }
 }
