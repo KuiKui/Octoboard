@@ -36,8 +36,8 @@ if(chdir($importDir) === false)
 foreach($days as $day)
 {
   echo "Import [".$day."]\n";
-  exec('rm -f *');
-  
+  cleanImport();
+
   $result = array(
     'repository-new' => 0,
     'pullrequest-new' => 0,
@@ -54,9 +54,8 @@ foreach($days as $day)
     $archiveName = sprintf('%s-%s', $day, $hour);
   
     echo "Archive : ".$archiveName."\n";
-    exec(sprintf('wget http://data.githubarchive.org/%s.json.gz >/dev/null 2>&1', $archiveName));
-    exec(sprintf('gunzip %s.json.gz >/dev/null', $archiveName));
-    exec(sprintf("sed %s %s.json > %s.json.line\n", escapeshellarg('s/}{/}\n{/g'), $archiveName, $archiveName));
+    exec(sprintf('curl http://data.githubarchive.org/%s.json.gz | gunzip | sed -e %s > %s.json.line', $archiveName, escapeshellarg('s/}{/}\
+{/g'), $archiveName));
     
     $filename = $importDir.DIRECTORY_SEPARATOR.$archiveName.'.json.line';
   
@@ -173,4 +172,9 @@ foreach($days as $day)
   echo "Done.\n\n";
 }
 
-exec('rm -f *');
+cleanImport();
+
+function cleanImport()
+{
+  exec(sprintf('%s/symfony dci', sfConfig::get('sf_root_dir')));
+}
