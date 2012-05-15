@@ -39,11 +39,21 @@ foreach($days as $day)
   cleanImport();
 
   $result = array(
+    'global-activity' => 0,
+
     'repository-new' => 0,
     'pullrequest-new' => 0,
-    'pullrequest-merged' => 0,
     'issue-new' => 0,
     'issue-fixed' => 0,
+    'fork-new' => 0,
+    'issue-comment-new' => 0,
+    'commit-comment-new' => 0,
+    'pullrequest-comment-new' => 0,
+    'pullrequest-merged' => 0,
+
+    'follow-new' => 0,
+    'watch-new' => 0,
+
     'ghpages-new' => 0,
     'open-sourced' => 0,
     'gist-new' => 0
@@ -54,64 +64,92 @@ foreach($days as $day)
     $archiveName = sprintf('%s-%s', $day, $hour);
   
     echo "Archive : ".$archiveName."\n";
-    exec(sprintf('curl http://data.githubarchive.org/%s.json.gz | gunzip | sed -e %s > %s.json.line', $archiveName, escapeshellarg('s/}{/}\
+    exec(sprintf('curl http://data.githubarchive.org/%s.json.gz 2>/dev/null | gunzip | sed -e %s > %s.json.line', $archiveName, escapeshellarg('s/}{/}\
 {/g'), $archiveName));
     
     $filename = $importDir.DIRECTORY_SEPARATOR.$archiveName.'.json.line';
   
     $fp = @fopen($filename, "r");
     if ($fp) {
-      while (($line = fgets($fp, 4096)) !== false) {
+      while (($line = fgets($fp, 8192)) !== false) {
         $data = json_decode($line, true);
-        switch($data['type'])
+        if(isset($data['type']))
         {
-          case 'CreateEvent':
-            if($data['payload']['ref_type'] == 'repository')
-            {
-              $result['repository-new']++;
-            }
-            else if($data['payload']['ref'] == 'gh-pages')
-            {
-              $result['ghpages-new']++;
-            }
-            break;
-  
-          case 'PullRequestEvent':
-            if($data['payload']['action'] == 'opened')
-            {
-              $result['pullrequest-new']++;
-            }
-            break;
-  
-          case 'IssuesEvent':
-            if($data['payload']['action'] == 'opened')
-            {
-              $result['issue-new']++;
-            }
-            else if($data['payload']['action'] == 'closed')
-            {
-              $result['issue-fixed']++;
-            }
-            break;
-          
-          case 'ForkApplyEvent':
-            $result['pullrequest-merged']++;
-            break;
-  
-          case 'PublicEvent':
-            $result['open-sourced']++;
-            break;
-  
-          case 'GistEvent':
-            if($data['payload']['action'] == 'create')
-            {
-              $result['gist-new']++;
-            }
-            break;
-  
-          default:
-            //echo $data['type']."\n";
-            break;
+          $result['global-activity']++;
+          switch($data['type'])
+          {
+            case 'CreateEvent':
+              if($data['payload']['ref_type'] == 'repository')
+              {
+                $result['repository-new']++;
+              }
+              else if($data['payload']['ref'] == 'gh-pages')
+              {
+                $result['ghpages-new']++;
+              }
+              break;
+    
+            case 'PullRequestEvent':
+              if($data['payload']['action'] == 'opened')
+              {
+                $result['pullrequest-new']++;
+              }
+              break;
+    
+            case 'IssuesEvent':
+              if($data['payload']['action'] == 'opened')
+              {
+                $result['issue-new']++;
+              }
+              else if($data['payload']['action'] == 'closed')
+              {
+                $result['issue-fixed']++;
+              }
+              break;
+            
+            case 'FollowEvent':
+              $result['follow-new']++;
+              break;
+
+            case 'WatchEvent':
+              $result['watch-new']++;
+              break;
+    
+            case 'PublicEvent':
+              $result['open-sourced']++;
+              break;
+    
+            case 'ForkEvent':
+              $result['fork-new']++;
+              break;
+    
+            case 'GistEvent':
+              if($data['payload']['action'] == 'create')
+              {
+                $result['gist-new']++;
+              }
+              break;
+    
+            case 'IssueCommentEvent':
+              $result['issue-comment-new']++;
+              break;
+    
+            case 'CommitCommentEvent':
+              $result['commit-comment-new']++;
+              break;
+    
+            case 'PullRequestReviewCommentEvent':
+              $result['pullrequest-comment-new']++;
+              break;
+
+            case 'ForkApplyEvent':
+              $result['pullrequest-merged']++;
+              break;
+    
+            default:
+              //echo $data['type']."\n";
+              break;
+          }
         }
       }
       if (!feof($fp)) {
