@@ -40,7 +40,7 @@ foreach($days as $day)
 
   $results = array();
   
-  for($hour = 0; $hour <= 4; $hour++)
+  for($hour = 0; $hour <= 23; $hour++)
   {
     $archiveName = sprintf('%s-%s', $day, $hour);
   
