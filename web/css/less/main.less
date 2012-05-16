@@ -19,6 +19,31 @@ body {
     }
   }
 
+  table {
+    border: 1px solid @textColor;
+    margin: 15px;
+    float: left;
+
+    caption {
+      background-color: @textColor;
+      color: @backgroundColor;
+      font-size: 1.3em;
+    }
+
+    thead {
+      border-bottom: 1px solid @textColor;
+    }
+
+    td {
+      padding: 3px;
+
+      &.date {
+        border-top: 1px solid @textColor;
+        border-bottom: 1px solid @textColor;
+      }      
+    }    
+  }
+
   #footer {
     text-align: center;
   }

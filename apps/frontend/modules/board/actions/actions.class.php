@@ -22,7 +22,6 @@ class boardActions extends sfActions
     {
       $this->entities[] = array(
         'name' => $entity->getName(),
-        'average' => $entity->getAverageValue(),
         'values' => json_decode($entity->getHistory(), true)
       );
     }

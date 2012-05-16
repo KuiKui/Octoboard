@@ -6,11 +6,8 @@ propel:
   entity:
     id:             ~
     name:           { type: varchar, size: '255', required: true }
-    value:          { type: integer, size: '11', required: true }
-    average_value:  { type: decimal, size: '17', scale: '6', required: false }
-    average_count:  { type: integer, size: '11', required: false }
-    gap_value:      { type: decimal, size: '17', scale: '6', required: false }
-    gap_percentage: { type: decimal, size: '5', scale: '2', required: false }
-    history:        { type: varchar, size: '1023', required: true, default: '[]' }
+    value:          { type: integer, size: '11', required: true, default: 0 }
+    nb_day:         { type: integer, size: '11', required: true, default: 0 }
+    history:        { type: varchar, size: '8191', required: true, default: '[]' }
     created_at:     ~
     updated_at:     ~

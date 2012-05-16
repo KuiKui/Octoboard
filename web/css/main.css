@@ -11,4 +11,20 @@ body a:hover {
   color:#b0b0ee;
   text-decoration:underline;
 }
+body table {
+  border:1px solid #b5b5bc;
+  margin:15px;
+  float:left;
+}
+body table caption {
+  background-color:#b5b5bc;
+  color:#333333;
+  font-size:1.3em;
+}
+body table thead { border-bottom:1px solid #b5b5bc; }
+body table td { padding:3px; }
+body table td.date {
+  border-top:1px solid #b5b5bc;
+  border-bottom:1px solid #b5b5bc;
+}
 body #footer { text-align:center; }

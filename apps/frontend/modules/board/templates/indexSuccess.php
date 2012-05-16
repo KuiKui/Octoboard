@@ -3,20 +3,23 @@
     <caption><?php echo $entity['name'] ?></caption>
     <thead>
       <tr>
-        <th>Day</th>
+        <th>Languages</th>
         <th>Count</th>
-        <th>Average</th>
-        <th>Gap</th>
+        <th>%</th>
       </tr>
     </thead>
     <tbody>
       <?php foreach($entity['values'] as $date => $value): ?>
         <tr>
-          <td><?php echo $date ?></td>
-          <td><?php echo $value['v'] ?></td>
-          <td><?php echo $entity['average'] ?></td>
-          <td><?php echo $value['gp'] ?>%</td>
+          <td colspan="3" class="date"><?php echo $date ?> - <?php echo $value['c'] ?></td>
         </tr>
+        <?php foreach($value['l'] as $language => $content): ?>
+          <tr>
+            <td><?php echo $language ?></td>
+            <td><?php echo $content['c'] ?></td>
+            <td><?php echo $content['p'] ?></td>
+          </tr>
+        <?php endforeach; ?>
       <?php endforeach; ?>
     </tbody>
   </table>

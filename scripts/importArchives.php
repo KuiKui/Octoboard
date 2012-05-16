@@ -38,28 +38,9 @@ foreach($days as $day)
   echo "Import [".$day."]\n";
   cleanImport();
 
-  $result = array(
-    'global-activity' => 0,
-
-    'repository-new' => 0,
-    'pullrequest-new' => 0,
-    'issue-new' => 0,
-    'issue-fixed' => 0,
-    'fork-new' => 0,
-    'issue-comment-new' => 0,
-    'commit-comment-new' => 0,
-    'pullrequest-comment-new' => 0,
-    'pullrequest-merged' => 0,
-
-    'follow-new' => 0,
-    'watch-new' => 0,
-
-    'ghpages-new' => 0,
-    'open-sourced' => 0,
-    'gist-new' => 0
-  );
+  $results = array();
   
-  for($hour = 0; $hour <= 23; $hour++)
+  for($hour = 0; $hour <= 4; $hour++)
   {
     $archiveName = sprintf('%s-%s', $day, $hour);
   
@@ -75,77 +56,42 @@ foreach($days as $day)
         $data = json_decode($line, true);
         if(isset($data['type']))
         {
-          $result['global-activity']++;
+          $language = isset($data['repository']['language']) ? $data['repository']['language'] : 'Undefined';
+
+          addOne($results, 'global-activity', $language);
+
           switch($data['type'])
           {
             case 'CreateEvent':
               if($data['payload']['ref_type'] == 'repository')
               {
-                $result['repository-new']++;
+                addOne($results, 'repository-new', $language);
               }
               else if($data['payload']['ref'] == 'gh-pages')
               {
-                $result['ghpages-new']++;
+                addOne($results, 'ghpages-new', $language);
               }
               break;
     
             case 'PullRequestEvent':
               if($data['payload']['action'] == 'opened')
               {
-                $result['pullrequest-new']++;
+                addOne($results, 'pullrequest-new', $language);
               }
               break;
     
-            case 'IssuesEvent':
-              if($data['payload']['action'] == 'opened')
-              {
-                $result['issue-new']++;
-              }
-              else if($data['payload']['action'] == 'closed')
-              {
-                $result['issue-fixed']++;
-              }
-              break;
-            
-            case 'FollowEvent':
-              $result['follow-new']++;
-              break;
-
             case 'WatchEvent':
-              $result['watch-new']++;
+              addOne($results, 'watch-new', $language);
               break;
     
             case 'PublicEvent':
-              $result['open-sourced']++;
+              addOne($results, 'open-sourced', $language);
               break;
     
             case 'ForkEvent':
-              $result['fork-new']++;
-              break;
-    
-            case 'GistEvent':
-              if($data['payload']['action'] == 'create')
-              {
-                $result['gist-new']++;
-              }
-              break;
-    
-            case 'IssueCommentEvent':
-              $result['issue-comment-new']++;
-              break;
-    
-            case 'CommitCommentEvent':
-              $result['commit-comment-new']++;
-              break;
-    
-            case 'PullRequestReviewCommentEvent':
-              $result['pullrequest-comment-new']++;
+              addOne($results, 'fork-new', $language);
               break;
 
-            case 'ForkApplyEvent':
-              $result['pullrequest-merged']++;
-              break;
-    
             default:
               //echo $data['type']."\n";
               break;
@@ -161,10 +107,10 @@ foreach($days as $day)
   }
 
   echo "Save in DB...";
-  foreach($result as $entityName => $entityValue)
+  foreach($results as $eventName => $languages)
   {
     $entity = EntityQuery::create()
-      ->filterByName($entityName)
+      ->filterByName($eventName)
       ->findOne()
     ;
     
@@ -172,36 +118,41 @@ foreach($days as $day)
     {
       $entity = new Entity();
       $entity
-        ->setName($entityName)
-        ->setValue(0)
-        ->setAverageValue(0)
-        ->setAverageCount(0)
-        ->setGapValue(0)
-        ->setGapPercentage(0)
+        ->setName($eventName)
         ->save();
     }
     
     if($entity)
     {
-      $tmpValue = $entity->getAverageValue() * $entity->getAverageCount();
-      $newCount = $entity->getAverageCount() + 1;
-      $average = ($tmpValue + $entityValue) / $newCount;
-      $gapValue = $entityValue - $average;
-      $gapPercentage = floatval(round(($average) ? $gapValue * 100 / $average : 0, 2));
-  
+      $allLanguageCount = 0;
+      foreach($languages as $languageName => $language)
+      {
+        $allLanguageCount += $language['count'];
+      }
+
+      $dayEntity = array(
+        'c' => $allLanguageCount,
+        'l' => array()
+      );
+
+      foreach($languages as $languageName => $language)
+      {
+        $dayEntity['l'][$languageName] = array(
+          'c' => $language['count'],
+          'p' => floatval(round(($allLanguageCount) ? $language['count'] * 100 / $allLanguageCount : 0, 2))
+        );
+      }
+
       $history = json_decode($entity->getHistory(), true);
-      $history[$day] = array('v' => $entityValue, 'gp' => $gapPercentage);
+      $history[$day] = $dayEntity;
       if(count($history) > 8)
       {
         array_shift($history);
       }
   
       $entity
-        ->setValue($entityValue)
-        ->setAverageCount($newCount)
-        ->setAverageValue($average)
-        ->setGapValue($gapValue)
-        ->setGapPercentage($gapPercentage)
+        ->setValue($entity->getValue() + $allLanguageCount)
+        ->setNbDay($entity->getNbDay() + 1)
         ->setHistory(json_encode($history))
         ->save()
       ;
@@ -215,4 +166,16 @@ cleanImport();
 function cleanImport()
 {
   exec(sprintf('%s/symfony dci', sfConfig::get('sf_root_dir')));
+}
+
+function addOne(&$results, $key, $language)
+{
+  if(isset($results[$key][$language]['count']) && is_integer($results[$key][$language]['count']))
+  {
+    $results[$key][$language]['count']++;
+  }
+  else
+  {
+    $results[$key][$language]['count'] = 1;
+  }
 }

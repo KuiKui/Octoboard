@@ -38,33 +38,17 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 
 	/**
 	 * The value for the value field.
+	 * Note: this column has a database default value of: 0
 	 * @var        int
 	 */
 	protected $value;
 
 	/**
-	 * The value for the average_value field.
-	 * @var        string
-	 */
-	protected $average_value;
-
-	/**
-	 * The value for the average_count field.
+	 * The value for the nb_day field.
+	 * Note: this column has a database default value of: 0
 	 * @var        int
 	 */
-	protected $average_count;
-
-	/**
-	 * The value for the gap_value field.
-	 * @var        string
-	 */
-	protected $gap_value;
-
-	/**
-	 * The value for the gap_percentage field.
-	 * @var        string
-	 */
-	protected $gap_percentage;
+	protected $nb_day;
 
 	/**
 	 * The value for the history field.
@@ -107,6 +91,8 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	 */
 	public function applyDefaultValues()
 	{
+		$this->value = 0;
+		$this->nb_day = 0;
 		$this->history = '[]';
 	}
 
@@ -151,43 +137,13 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	}
 
 	/**
-	 * Get the [average_value] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getAverageValue()
-	{
-		return $this->average_value;
-	}
-
-	/**
-	 * Get the [average_count] column value.
+	 * Get the [nb_day] column value.
 	 * 
 	 * @return     int
 	 */
-	public function getAverageCount()
+	public function getNbDay()
 	{
-		return $this->average_count;
-	}
-
-	/**
-	 * Get the [gap_value] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getGapValue()
-	{
-		return $this->gap_value;
-	}
-
-	/**
-	 * Get the [gap_percentage] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getGapPercentage()
-	{
-		return $this->gap_percentage;
+		return $this->nb_day;
 	}
 
 	/**
@@ -337,84 +293,24 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	} // setValue()
 
 	/**
-	 * Set the value of [average_value] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Entity The current object (for fluent API support)
-	 */
-	public function setAverageValue($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->average_value !== $v) {
-			$this->average_value = $v;
-			$this->modifiedColumns[] = EntityPeer::AVERAGE_VALUE;
-		}
-
-		return $this;
-	} // setAverageValue()
-
-	/**
-	 * Set the value of [average_count] column.
+	 * Set the value of [nb_day] column.
 	 * 
 	 * @param      int $v new value
 	 * @return     Entity The current object (for fluent API support)
 	 */
-	public function setAverageCount($v)
+	public function setNbDay($v)
 	{
 		if ($v !== null) {
 			$v = (int) $v;
 		}
 
-		if ($this->average_count !== $v) {
-			$this->average_count = $v;
-			$this->modifiedColumns[] = EntityPeer::AVERAGE_COUNT;
+		if ($this->nb_day !== $v) {
+			$this->nb_day = $v;
+			$this->modifiedColumns[] = EntityPeer::NB_DAY;
 		}
 
 		return $this;
-	} // setAverageCount()
-
-	/**
-	 * Set the value of [gap_value] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Entity The current object (for fluent API support)
-	 */
-	public function setGapValue($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->gap_value !== $v) {
-			$this->gap_value = $v;
-			$this->modifiedColumns[] = EntityPeer::GAP_VALUE;
-		}
-
-		return $this;
-	} // setGapValue()
-
-	/**
-	 * Set the value of [gap_percentage] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     Entity The current object (for fluent API support)
-	 */
-	public function setGapPercentage($v)
-	{
-		if ($v !== null) {
-			$v = (string) $v;
-		}
-
-		if ($this->gap_percentage !== $v) {
-			$this->gap_percentage = $v;
-			$this->modifiedColumns[] = EntityPeer::GAP_PERCENTAGE;
-		}
-
-		return $this;
-	} // setGapPercentage()
+	} // setNbDay()
 
 	/**
 	 * Set the value of [history] column.
@@ -490,6 +386,14 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	 */
 	public function hasOnlyDefaultValues()
 	{
+			if ($this->value !== 0) {
+				return false;
+			}
+
+			if ($this->nb_day !== 0) {
+				return false;
+			}
+
 			if ($this->history !== '[]') {
 				return false;
 			}
@@ -519,13 +423,10 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
 			$this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
 			$this->value = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-			$this->average_value = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-			$this->average_count = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
-			$this->gap_value = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-			$this->gap_percentage = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-			$this->history = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-			$this->created_at = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-			$this->updated_at = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+			$this->nb_day = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+			$this->history = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+			$this->created_at = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+			$this->updated_at = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -534,7 +435,7 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 				$this->ensureConsistency();
 			}
 
-			return $startcol + 10; // 10 = EntityPeer::NUM_HYDRATE_COLUMNS.
+			return $startcol + 7; // 7 = EntityPeer::NUM_HYDRATE_COLUMNS.
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Entity object", $e);
@@ -794,17 +695,8 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 		if ($this->isColumnModified(EntityPeer::VALUE)) {
 			$modifiedColumns[':p' . $index++]  = '`VALUE`';
 		}
-		if ($this->isColumnModified(EntityPeer::AVERAGE_VALUE)) {
-			$modifiedColumns[':p' . $index++]  = '`AVERAGE_VALUE`';
-		}
-		if ($this->isColumnModified(EntityPeer::AVERAGE_COUNT)) {
-			$modifiedColumns[':p' . $index++]  = '`AVERAGE_COUNT`';
-		}
-		if ($this->isColumnModified(EntityPeer::GAP_VALUE)) {
-			$modifiedColumns[':p' . $index++]  = '`GAP_VALUE`';
-		}
-		if ($this->isColumnModified(EntityPeer::GAP_PERCENTAGE)) {
-			$modifiedColumns[':p' . $index++]  = '`GAP_PERCENTAGE`';
+		if ($this->isColumnModified(EntityPeer::NB_DAY)) {
+			$modifiedColumns[':p' . $index++]  = '`NB_DAY`';
 		}
 		if ($this->isColumnModified(EntityPeer::HISTORY)) {
 			$modifiedColumns[':p' . $index++]  = '`HISTORY`';
@@ -835,17 +727,8 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 					case '`VALUE`':
 						$stmt->bindValue($identifier, $this->value, PDO::PARAM_INT);
 						break;
-					case '`AVERAGE_VALUE`':
-						$stmt->bindValue($identifier, $this->average_value, PDO::PARAM_STR);
-						break;
-					case '`AVERAGE_COUNT`':
-						$stmt->bindValue($identifier, $this->average_count, PDO::PARAM_INT);
-						break;
-					case '`GAP_VALUE`':
-						$stmt->bindValue($identifier, $this->gap_value, PDO::PARAM_STR);
-						break;
-					case '`GAP_PERCENTAGE`':
-						$stmt->bindValue($identifier, $this->gap_percentage, PDO::PARAM_STR);
+					case '`NB_DAY`':
+						$stmt->bindValue($identifier, $this->nb_day, PDO::PARAM_INT);
 						break;
 					case '`HISTORY`':
 						$stmt->bindValue($identifier, $this->history, PDO::PARAM_STR);
@@ -996,24 +879,15 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 				return $this->getValue();
 				break;
 			case 3:
-				return $this->getAverageValue();
+				return $this->getNbDay();
 				break;
 			case 4:
-				return $this->getAverageCount();
-				break;
-			case 5:
-				return $this->getGapValue();
-				break;
-			case 6:
-				return $this->getGapPercentage();
-				break;
-			case 7:
 				return $this->getHistory();
 				break;
-			case 8:
+			case 5:
 				return $this->getCreatedAt();
 				break;
-			case 9:
+			case 6:
 				return $this->getUpdatedAt();
 				break;
 			default:
@@ -1047,13 +921,10 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
 			$keys[2] => $this->getValue(),
-			$keys[3] => $this->getAverageValue(),
-			$keys[4] => $this->getAverageCount(),
-			$keys[5] => $this->getGapValue(),
-			$keys[6] => $this->getGapPercentage(),
-			$keys[7] => $this->getHistory(),
-			$keys[8] => $this->getCreatedAt(),
-			$keys[9] => $this->getUpdatedAt(),
+			$keys[3] => $this->getNbDay(),
+			$keys[4] => $this->getHistory(),
+			$keys[5] => $this->getCreatedAt(),
+			$keys[6] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -1095,24 +966,15 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 				$this->setValue($value);
 				break;
 			case 3:
-				$this->setAverageValue($value);
+				$this->setNbDay($value);
 				break;
 			case 4:
-				$this->setAverageCount($value);
-				break;
-			case 5:
-				$this->setGapValue($value);
-				break;
-			case 6:
-				$this->setGapPercentage($value);
-				break;
-			case 7:
 				$this->setHistory($value);
 				break;
-			case 8:
+			case 5:
 				$this->setCreatedAt($value);
 				break;
-			case 9:
+			case 6:
 				$this->setUpdatedAt($value);
 				break;
 		} // switch()
@@ -1142,13 +1004,10 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setValue($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setAverageValue($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setAverageCount($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setGapValue($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setGapPercentage($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setHistory($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setUpdatedAt($arr[$keys[9]]);
+		if (array_key_exists($keys[3], $arr)) $this->setNbDay($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setHistory($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedAt($arr[$keys[6]]);
 	}
 
 	/**
@@ -1163,10 +1022,7 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 		if ($this->isColumnModified(EntityPeer::ID)) $criteria->add(EntityPeer::ID, $this->id);
 		if ($this->isColumnModified(EntityPeer::NAME)) $criteria->add(EntityPeer::NAME, $this->name);
 		if ($this->isColumnModified(EntityPeer::VALUE)) $criteria->add(EntityPeer::VALUE, $this->value);
-		if ($this->isColumnModified(EntityPeer::AVERAGE_VALUE)) $criteria->add(EntityPeer::AVERAGE_VALUE, $this->average_value);
-		if ($this->isColumnModified(EntityPeer::AVERAGE_COUNT)) $criteria->add(EntityPeer::AVERAGE_COUNT, $this->average_count);
-		if ($this->isColumnModified(EntityPeer::GAP_VALUE)) $criteria->add(EntityPeer::GAP_VALUE, $this->gap_value);
-		if ($this->isColumnModified(EntityPeer::GAP_PERCENTAGE)) $criteria->add(EntityPeer::GAP_PERCENTAGE, $this->gap_percentage);
+		if ($this->isColumnModified(EntityPeer::NB_DAY)) $criteria->add(EntityPeer::NB_DAY, $this->nb_day);
 		if ($this->isColumnModified(EntityPeer::HISTORY)) $criteria->add(EntityPeer::HISTORY, $this->history);
 		if ($this->isColumnModified(EntityPeer::CREATED_AT)) $criteria->add(EntityPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(EntityPeer::UPDATED_AT)) $criteria->add(EntityPeer::UPDATED_AT, $this->updated_at);
@@ -1234,10 +1090,7 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	{
 		$copyObj->setName($this->getName());
 		$copyObj->setValue($this->getValue());
-		$copyObj->setAverageValue($this->getAverageValue());
-		$copyObj->setAverageCount($this->getAverageCount());
-		$copyObj->setGapValue($this->getGapValue());
-		$copyObj->setGapPercentage($this->getGapPercentage());
+		$copyObj->setNbDay($this->getNbDay());
 		$copyObj->setHistory($this->getHistory());
 		$copyObj->setCreatedAt($this->getCreatedAt());
 		$copyObj->setUpdatedAt($this->getUpdatedAt());
@@ -1293,10 +1146,7 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 		$this->id = null;
 		$this->name = null;
 		$this->value = null;
-		$this->average_value = null;
-		$this->average_count = null;
-		$this->gap_value = null;
-		$this->gap_percentage = null;
+		$this->nb_day = null;
 		$this->history = null;
 		$this->created_at = null;
 		$this->updated_at = null;

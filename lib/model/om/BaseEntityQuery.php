@@ -9,10 +9,7 @@
  * @method     EntityQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     EntityQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method     EntityQuery orderByValue($order = Criteria::ASC) Order by the value column
- * @method     EntityQuery orderByAverageValue($order = Criteria::ASC) Order by the average_value column
- * @method     EntityQuery orderByAverageCount($order = Criteria::ASC) Order by the average_count column
- * @method     EntityQuery orderByGapValue($order = Criteria::ASC) Order by the gap_value column
- * @method     EntityQuery orderByGapPercentage($order = Criteria::ASC) Order by the gap_percentage column
+ * @method     EntityQuery orderByNbDay($order = Criteria::ASC) Order by the nb_day column
  * @method     EntityQuery orderByHistory($order = Criteria::ASC) Order by the history column
  * @method     EntityQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     EntityQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
@@ -20,10 +17,7 @@
  * @method     EntityQuery groupById() Group by the id column
  * @method     EntityQuery groupByName() Group by the name column
  * @method     EntityQuery groupByValue() Group by the value column
- * @method     EntityQuery groupByAverageValue() Group by the average_value column
- * @method     EntityQuery groupByAverageCount() Group by the average_count column
- * @method     EntityQuery groupByGapValue() Group by the gap_value column
- * @method     EntityQuery groupByGapPercentage() Group by the gap_percentage column
+ * @method     EntityQuery groupByNbDay() Group by the nb_day column
  * @method     EntityQuery groupByHistory() Group by the history column
  * @method     EntityQuery groupByCreatedAt() Group by the created_at column
  * @method     EntityQuery groupByUpdatedAt() Group by the updated_at column
@@ -38,10 +32,7 @@
  * @method     Entity findOneById(int $id) Return the first Entity filtered by the id column
  * @method     Entity findOneByName(string $name) Return the first Entity filtered by the name column
  * @method     Entity findOneByValue(int $value) Return the first Entity filtered by the value column
- * @method     Entity findOneByAverageValue(string $average_value) Return the first Entity filtered by the average_value column
- * @method     Entity findOneByAverageCount(int $average_count) Return the first Entity filtered by the average_count column
- * @method     Entity findOneByGapValue(string $gap_value) Return the first Entity filtered by the gap_value column
- * @method     Entity findOneByGapPercentage(string $gap_percentage) Return the first Entity filtered by the gap_percentage column
+ * @method     Entity findOneByNbDay(int $nb_day) Return the first Entity filtered by the nb_day column
  * @method     Entity findOneByHistory(string $history) Return the first Entity filtered by the history column
  * @method     Entity findOneByCreatedAt(string $created_at) Return the first Entity filtered by the created_at column
  * @method     Entity findOneByUpdatedAt(string $updated_at) Return the first Entity filtered by the updated_at column
@@ -49,10 +40,7 @@
  * @method     array findById(int $id) Return Entity objects filtered by the id column
  * @method     array findByName(string $name) Return Entity objects filtered by the name column
  * @method     array findByValue(int $value) Return Entity objects filtered by the value column
- * @method     array findByAverageValue(string $average_value) Return Entity objects filtered by the average_value column
- * @method     array findByAverageCount(int $average_count) Return Entity objects filtered by the average_count column
- * @method     array findByGapValue(string $gap_value) Return Entity objects filtered by the gap_value column
- * @method     array findByGapPercentage(string $gap_percentage) Return Entity objects filtered by the gap_percentage column
+ * @method     array findByNbDay(int $nb_day) Return Entity objects filtered by the nb_day column
  * @method     array findByHistory(string $history) Return Entity objects filtered by the history column
  * @method     array findByCreatedAt(string $created_at) Return Entity objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return Entity objects filtered by the updated_at column
@@ -144,7 +132,7 @@ abstract class BaseEntityQuery extends ModelCriteria
 	 */
 	protected function findPkSimple($key, $con)
 	{
-		$sql = 'SELECT `ID`, `NAME`, `VALUE`, `AVERAGE_VALUE`, `AVERAGE_COUNT`, `GAP_VALUE`, `GAP_PERCENTAGE`, `HISTORY`, `CREATED_AT`, `UPDATED_AT` FROM `entity` WHERE `ID` = :p0';
+		$sql = 'SELECT `ID`, `NAME`, `VALUE`, `NB_DAY`, `HISTORY`, `CREATED_AT`, `UPDATED_AT` FROM `entity` WHERE `ID` = :p0';
 		try {
 			$stmt = $con->prepare($sql);
 			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -324,16 +312,16 @@ abstract class BaseEntityQuery extends ModelCriteria
 	}
 
 	/**
-	 * Filter the query on the average_value column
+	 * Filter the query on the nb_day column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByAverageValue(1234); // WHERE average_value = 1234
-	 * $query->filterByAverageValue(array(12, 34)); // WHERE average_value IN (12, 34)
-	 * $query->filterByAverageValue(array('min' => 12)); // WHERE average_value > 12
+	 * $query->filterByNbDay(1234); // WHERE nb_day = 1234
+	 * $query->filterByNbDay(array(12, 34)); // WHERE nb_day IN (12, 34)
+	 * $query->filterByNbDay(array('min' => 12)); // WHERE nb_day > 12
 	 * </code>
 	 *
-	 * @param     mixed $averageValue The value to use as filter.
+	 * @param     mixed $nbDay The value to use as filter.
 	 *              Use scalar values for equality.
 	 *              Use array values for in_array() equivalent.
 	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -341,16 +329,16 @@ abstract class BaseEntityQuery extends ModelCriteria
 	 *
 	 * @return    EntityQuery The current query, for fluid interface
 	 */
-	public function filterByAverageValue($averageValue = null, $comparison = null)
+	public function filterByNbDay($nbDay = null, $comparison = null)
 	{
-		if (is_array($averageValue)) {
+		if (is_array($nbDay)) {
 			$useMinMax = false;
-			if (isset($averageValue['min'])) {
-				$this->addUsingAlias(EntityPeer::AVERAGE_VALUE, $averageValue['min'], Criteria::GREATER_EQUAL);
+			if (isset($nbDay['min'])) {
+				$this->addUsingAlias(EntityPeer::NB_DAY, $nbDay['min'], Criteria::GREATER_EQUAL);
 				$useMinMax = true;
 			}
-			if (isset($averageValue['max'])) {
-				$this->addUsingAlias(EntityPeer::AVERAGE_VALUE, $averageValue['max'], Criteria::LESS_EQUAL);
+			if (isset($nbDay['max'])) {
+				$this->addUsingAlias(EntityPeer::NB_DAY, $nbDay['max'], Criteria::LESS_EQUAL);
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -360,127 +348,7 @@ abstract class BaseEntityQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(EntityPeer::AVERAGE_VALUE, $averageValue, $comparison);
-	}
-
-	/**
-	 * Filter the query on the average_count column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByAverageCount(1234); // WHERE average_count = 1234
-	 * $query->filterByAverageCount(array(12, 34)); // WHERE average_count IN (12, 34)
-	 * $query->filterByAverageCount(array('min' => 12)); // WHERE average_count > 12
-	 * </code>
-	 *
-	 * @param     mixed $averageCount The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    EntityQuery The current query, for fluid interface
-	 */
-	public function filterByAverageCount($averageCount = null, $comparison = null)
-	{
-		if (is_array($averageCount)) {
-			$useMinMax = false;
-			if (isset($averageCount['min'])) {
-				$this->addUsingAlias(EntityPeer::AVERAGE_COUNT, $averageCount['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($averageCount['max'])) {
-				$this->addUsingAlias(EntityPeer::AVERAGE_COUNT, $averageCount['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(EntityPeer::AVERAGE_COUNT, $averageCount, $comparison);
-	}
-
-	/**
-	 * Filter the query on the gap_value column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByGapValue(1234); // WHERE gap_value = 1234
-	 * $query->filterByGapValue(array(12, 34)); // WHERE gap_value IN (12, 34)
-	 * $query->filterByGapValue(array('min' => 12)); // WHERE gap_value > 12
-	 * </code>
-	 *
-	 * @param     mixed $gapValue The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    EntityQuery The current query, for fluid interface
-	 */
-	public function filterByGapValue($gapValue = null, $comparison = null)
-	{
-		if (is_array($gapValue)) {
-			$useMinMax = false;
-			if (isset($gapValue['min'])) {
-				$this->addUsingAlias(EntityPeer::GAP_VALUE, $gapValue['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($gapValue['max'])) {
-				$this->addUsingAlias(EntityPeer::GAP_VALUE, $gapValue['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(EntityPeer::GAP_VALUE, $gapValue, $comparison);
-	}
-
-	/**
-	 * Filter the query on the gap_percentage column
-	 *
-	 * Example usage:
-	 * <code>
-	 * $query->filterByGapPercentage(1234); // WHERE gap_percentage = 1234
-	 * $query->filterByGapPercentage(array(12, 34)); // WHERE gap_percentage IN (12, 34)
-	 * $query->filterByGapPercentage(array('min' => 12)); // WHERE gap_percentage > 12
-	 * </code>
-	 *
-	 * @param     mixed $gapPercentage The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    EntityQuery The current query, for fluid interface
-	 */
-	public function filterByGapPercentage($gapPercentage = null, $comparison = null)
-	{
-		if (is_array($gapPercentage)) {
-			$useMinMax = false;
-			if (isset($gapPercentage['min'])) {
-				$this->addUsingAlias(EntityPeer::GAP_PERCENTAGE, $gapPercentage['min'], Criteria::GREATER_EQUAL);
-				$useMinMax = true;
-			}
-			if (isset($gapPercentage['max'])) {
-				$this->addUsingAlias(EntityPeer::GAP_PERCENTAGE, $gapPercentage['max'], Criteria::LESS_EQUAL);
-				$useMinMax = true;
-			}
-			if ($useMinMax) {
-				return $this;
-			}
-			if (null === $comparison) {
-				$comparison = Criteria::IN;
-			}
-		}
-		return $this->addUsingAlias(EntityPeer::GAP_PERCENTAGE, $gapPercentage, $comparison);
+		return $this->addUsingAlias(EntityPeer::NB_DAY, $nbDay, $comparison);
 	}
 
 	/**

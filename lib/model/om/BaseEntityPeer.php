@@ -26,13 +26,13 @@ abstract class BaseEntityPeer {
 	const TM_CLASS = 'EntityTableMap';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 10;
+	const NUM_COLUMNS = 7;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-	const NUM_HYDRATE_COLUMNS = 10;
+	const NUM_HYDRATE_COLUMNS = 7;
 
 	/** the column name for the ID field */
 	const ID = 'entity.ID';
@@ -43,17 +43,8 @@ abstract class BaseEntityPeer {
 	/** the column name for the VALUE field */
 	const VALUE = 'entity.VALUE';
 
-	/** the column name for the AVERAGE_VALUE field */
-	const AVERAGE_VALUE = 'entity.AVERAGE_VALUE';
-
-	/** the column name for the AVERAGE_COUNT field */
-	const AVERAGE_COUNT = 'entity.AVERAGE_COUNT';
-
-	/** the column name for the GAP_VALUE field */
-	const GAP_VALUE = 'entity.GAP_VALUE';
-
-	/** the column name for the GAP_PERCENTAGE field */
-	const GAP_PERCENTAGE = 'entity.GAP_PERCENTAGE';
+	/** the column name for the NB_DAY field */
+	const NB_DAY = 'entity.NB_DAY';
 
 	/** the column name for the HISTORY field */
 	const HISTORY = 'entity.HISTORY';
@@ -83,12 +74,12 @@ abstract class BaseEntityPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	protected static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Value', 'AverageValue', 'AverageCount', 'GapValue', 'GapPercentage', 'History', 'CreatedAt', 'UpdatedAt', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'value', 'averageValue', 'averageCount', 'gapValue', 'gapPercentage', 'history', 'createdAt', 'updatedAt', ),
-		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::VALUE, self::AVERAGE_VALUE, self::AVERAGE_COUNT, self::GAP_VALUE, self::GAP_PERCENTAGE, self::HISTORY, self::CREATED_AT, self::UPDATED_AT, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'VALUE', 'AVERAGE_VALUE', 'AVERAGE_COUNT', 'GAP_VALUE', 'GAP_PERCENTAGE', 'HISTORY', 'CREATED_AT', 'UPDATED_AT', ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'value', 'average_value', 'average_count', 'gap_value', 'gap_percentage', 'history', 'created_at', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Value', 'NbDay', 'History', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'value', 'nbDay', 'history', 'createdAt', 'updatedAt', ),
+		BasePeer::TYPE_COLNAME => array (self::ID, self::NAME, self::VALUE, self::NB_DAY, self::HISTORY, self::CREATED_AT, self::UPDATED_AT, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'VALUE', 'NB_DAY', 'HISTORY', 'CREATED_AT', 'UPDATED_AT', ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'value', 'nb_day', 'history', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -98,12 +89,12 @@ abstract class BaseEntityPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	protected static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Value' => 2, 'AverageValue' => 3, 'AverageCount' => 4, 'GapValue' => 5, 'GapPercentage' => 6, 'History' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'value' => 2, 'averageValue' => 3, 'averageCount' => 4, 'gapValue' => 5, 'gapPercentage' => 6, 'history' => 7, 'createdAt' => 8, 'updatedAt' => 9, ),
-		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::VALUE => 2, self::AVERAGE_VALUE => 3, self::AVERAGE_COUNT => 4, self::GAP_VALUE => 5, self::GAP_PERCENTAGE => 6, self::HISTORY => 7, self::CREATED_AT => 8, self::UPDATED_AT => 9, ),
-		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'VALUE' => 2, 'AVERAGE_VALUE' => 3, 'AVERAGE_COUNT' => 4, 'GAP_VALUE' => 5, 'GAP_PERCENTAGE' => 6, 'HISTORY' => 7, 'CREATED_AT' => 8, 'UPDATED_AT' => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'value' => 2, 'average_value' => 3, 'average_count' => 4, 'gap_value' => 5, 'gap_percentage' => 6, 'history' => 7, 'created_at' => 8, 'updated_at' => 9, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Value' => 2, 'NbDay' => 3, 'History' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'value' => 2, 'nbDay' => 3, 'history' => 4, 'createdAt' => 5, 'updatedAt' => 6, ),
+		BasePeer::TYPE_COLNAME => array (self::ID => 0, self::NAME => 1, self::VALUE => 2, self::NB_DAY => 3, self::HISTORY => 4, self::CREATED_AT => 5, self::UPDATED_AT => 6, ),
+		BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'VALUE' => 2, 'NB_DAY' => 3, 'HISTORY' => 4, 'CREATED_AT' => 5, 'UPDATED_AT' => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'value' => 2, 'nb_day' => 3, 'history' => 4, 'created_at' => 5, 'updated_at' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	/**
@@ -178,10 +169,7 @@ abstract class BaseEntityPeer {
 			$criteria->addSelectColumn(EntityPeer::ID);
 			$criteria->addSelectColumn(EntityPeer::NAME);
 			$criteria->addSelectColumn(EntityPeer::VALUE);
-			$criteria->addSelectColumn(EntityPeer::AVERAGE_VALUE);
-			$criteria->addSelectColumn(EntityPeer::AVERAGE_COUNT);
-			$criteria->addSelectColumn(EntityPeer::GAP_VALUE);
-			$criteria->addSelectColumn(EntityPeer::GAP_PERCENTAGE);
+			$criteria->addSelectColumn(EntityPeer::NB_DAY);
 			$criteria->addSelectColumn(EntityPeer::HISTORY);
 			$criteria->addSelectColumn(EntityPeer::CREATED_AT);
 			$criteria->addSelectColumn(EntityPeer::UPDATED_AT);
@@ -189,10 +177,7 @@ abstract class BaseEntityPeer {
 			$criteria->addSelectColumn($alias . '.ID');
 			$criteria->addSelectColumn($alias . '.NAME');
 			$criteria->addSelectColumn($alias . '.VALUE');
-			$criteria->addSelectColumn($alias . '.AVERAGE_VALUE');
-			$criteria->addSelectColumn($alias . '.AVERAGE_COUNT');
-			$criteria->addSelectColumn($alias . '.GAP_VALUE');
-			$criteria->addSelectColumn($alias . '.GAP_PERCENTAGE');
+			$criteria->addSelectColumn($alias . '.NB_DAY');
 			$criteria->addSelectColumn($alias . '.HISTORY');
 			$criteria->addSelectColumn($alias . '.CREATED_AT');
 			$criteria->addSelectColumn($alias . '.UPDATED_AT');
