@@ -5,6 +5,10 @@ home:
   url: /
   param: { module: board, action: index}
 
+stat:
+  url:   /:stat
+  param: { module: board, action: stat }
+
 default_index:
   url:   /:module
   param: { action: index }

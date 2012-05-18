@@ -18,7 +18,7 @@ abstract class BaseEntityForm extends BaseFormPropel
       'name'       => new sfWidgetFormInputText(),
       'value'      => new sfWidgetFormInputText(),
       'nb_day'     => new sfWidgetFormInputText(),
-      'history'    => new sfWidgetFormInputText(),
+      'history'    => new sfWidgetFormTextarea(),
       'created_at' => new sfWidgetFormDateTime(),
       'updated_at' => new sfWidgetFormDateTime(),
     ));
@@ -28,7 +28,7 @@ abstract class BaseEntityForm extends BaseFormPropel
       'name'       => new sfValidatorString(array('max_length' => 255)),
       'value'      => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647)),
       'nb_day'     => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647)),
-      'history'    => new sfValidatorString(array('max_length' => 8191)),
+      'history'    => new sfValidatorString(),
       'created_at' => new sfValidatorDateTime(array('required' => false)),
       'updated_at' => new sfValidatorDateTime(array('required' => false)),
     ));

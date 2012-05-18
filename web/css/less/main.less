@@ -4,14 +4,19 @@
 @textColor: #b5b5bc;
 @linkColor: #b0b0ee;
 
+@fontFamily: Helvetica,Arial,sans-serif;
+@fontSize: 15px;
+@lineHeight: 25px;
+
+
 body {
   background-color: @backgroundColor;
   color: @textColor;
+  font-family: @fontFamily;
 
   a {
     color: @linkColor;
     text-decoration: none;
-    font-weight: bold;
 
     &:hover {
       color: @linkColor;
@@ -19,32 +24,92 @@ body {
     }
   }
 
-  table {
-    border: 1px solid @textColor;
-    margin: 15px;
-    float: left;
+  #header {
+    background-color: @backgroundColor - #10100A;
+    overflow: hidden;
 
-    caption {
-      background-color: @textColor;
-      color: @backgroundColor;
-      font-size: 1.3em;
+    a {
+      display: inline-block;
+      padding: 10px;
     }
 
-    thead {
-      border-bottom: 1px solid @textColor;
+    a#octoboard {
+      float: left;
+      font-weight: bold;
+      font-size: 20px;
+      &:hover {
+        text-decoration: none;
+      }
     }
 
-    td {
-      padding: 3px;
+    ul#menu {
+      float: right;
+      list-style: none;
+      margin: 0;
+      overflow: hidden;
 
-      &.date {
-        border-top: 1px solid @textColor;
-        border-bottom: 1px solid @textColor;
-      }      
-    }    
+      li {
+        float: left;
+
+        &:hover {
+          background-color: @backgroundColor + #0A0A10;
+        }
+
+        a:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  #content {
+    margin: 30px auto;
+    min-height: 450px;
+    opacity: 1;
+    text-align: left;
+    width: 80%;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-family: @fontFamily;
+      font-size: @fontSize;
+      line-height: @lineHeight;
+      margin-bottom: 25px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0 0 25px 0;
+
+      li {
+        font-size: @fontSize;
+        margin-bottom: 10px;
+  
+        em {
+          background-color: #fff - @backgroundColor;
+          color: @backgroundColor;
+          font-style: normal;
+          line-height: @lineHeight;
+          padding: 1px 3px;
+          .radius(4px);
+        }
+
+        .positive {
+          color: @textColor - #222 + #0C0;
+        }
+
+        .negative {
+          color: @textColor - #222 + #C00;
+        }
+      }
+    }
   }
 
   #footer {
     text-align: center;
+    margin-bottom: 15px;
   }
 }

@@ -65,35 +65,57 @@ foreach($days as $day)
             case 'CreateEvent':
               if($data['payload']['ref_type'] == 'repository')
               {
-                addOne($results, 'repository-new', $language);
+                addOne($results, 'repository', $language);
               }
               else if($data['payload']['ref'] == 'gh-pages')
               {
-                addOne($results, 'ghpages-new', $language);
+                addOne($results, 'ghpages', $language);
               }
               break;
     
             case 'PullRequestEvent':
               if($data['payload']['action'] == 'opened')
               {
-                addOne($results, 'pullrequest-new', $language);
+                addOne($results, 'pullrequest', $language);
               }
               break;
     
             case 'WatchEvent':
-              addOne($results, 'watch-new', $language);
+              addOne($results, 'watch', $language);
               break;
     
             case 'PublicEvent':
-              addOne($results, 'open-sourced', $language);
+              addOne($results, 'public', $language);
               break;
     
             case 'ForkEvent':
-              addOne($results, 'fork-new', $language);
+              addOne($results, 'fork', $language);
               break;
 
-            default:
-              //echo $data['type']."\n";
+            case 'PushEvent':
+              addOne($results, 'push', $language);
+              break;
+
+            case 'GistEvent':
+              if($data['payload']['action'] == 'create')
+              {
+                addOne($results, 'gist', $language);
+              }
+              else if($data['payload']['action'] == 'update')
+              {
+                addOne($results, 'gist-update', $language);
+              }
+              break;
+
+            case 'IssuesEvent':
+              if($data['payload']['action'] == 'opened')
+              {
+                addOne($results, 'issue', $language);
+              }
+              else if($data['payload']['action'] == 'closed')
+              {
+                addOne($results, 'issue-close', $language);
+              }
               break;
           }
         }
@@ -119,6 +141,7 @@ foreach($days as $day)
       $entity = new Entity();
       $entity
         ->setName($eventName)
+        ->setHistory('[]')
         ->save();
     }
     
@@ -137,15 +160,12 @@ foreach($days as $day)
 
       foreach($languages as $languageName => $language)
       {
-        $dayEntity['l'][$languageName] = array(
-          'c' => $language['count'],
-          'p' => floatval(round(($allLanguageCount) ? $language['count'] * 100 / $allLanguageCount : 0, 2))
-        );
+        $dayEntity['l'][$languageName] = $language['count'];
       }
 
       $history = json_decode($entity->getHistory(), true);
       $history[$day] = $dayEntity;
-      if(count($history) > 8)
+      if(count($history) > 15)
       {
         array_shift($history);
       }

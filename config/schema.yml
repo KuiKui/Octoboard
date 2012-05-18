@@ -8,6 +8,6 @@ propel:
     name:           { type: varchar, size: '255', required: true }
     value:          { type: integer, size: '11', required: true, default: 0 }
     nb_day:         { type: integer, size: '11', required: true, default: 0 }
-    history:        { type: varchar, size: '8191', required: true, default: '[]' }
+    history:        { type: longvarchar, required: true }
     created_at:     ~
     updated_at:     ~

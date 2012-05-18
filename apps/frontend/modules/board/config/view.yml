@@ -1,2 +1,2 @@
 all:
-  javascripts: [board]
+  javascripts: [vendor/highcharts, vendor/jquery.highchartTable.js, board]

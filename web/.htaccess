@@ -2,3 +2,12 @@
   Header append P3P 'CP="CAO PSA OUR"'
 </IfModule>
 
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_URI} \..+$
+  RewriteCond %{REQUEST_URI} !\.html$
+  RewriteRule .* - [L]
+
+  RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>

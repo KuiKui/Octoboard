@@ -2,4 +2,43 @@
 # http://www.symfony-project.org/reference/1_4/en/11-App
 
 # default values
-#all:
+
+all:
+  stat:
+    item:
+      global-activity:
+        menu: 'Global activity'
+        title: 'Global activity'
+        languages: false
+      repository:
+        menu: 'Repository'
+        title: 'Created repositories'
+        languages: false
+      fork:
+        menu: 'Fork'
+        title: 'Forked repositories'
+        languages: true
+      pullrequest:
+        menu: 'Pull Request'
+        title: 'Opened pull requests'
+        languages: true
+      issue:
+        menu: 'Issue'
+        title: 'Opened issues'
+        languages: true
+      watch:
+        menu: 'Watch'
+        title: '"Watch" events'
+        languages: true
+      public:
+        menu: 'Public'
+        title: 'Open sourced repositories'
+        languages: true
+      ghpages:
+        menu: 'GH Pages'
+        title: 'New GitHub Pages'
+        languages: true
+      gist:
+        menu: 'Gist'
+        title: 'Created gists'
+        languages: false

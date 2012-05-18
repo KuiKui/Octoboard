@@ -42,7 +42,7 @@ class EntityTableMap extends TableMap
 		$this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
 		$this->addColumn('VALUE', 'Value', 'INTEGER', true, 11, 0);
 		$this->addColumn('NB_DAY', 'NbDay', 'INTEGER', true, 11, 0);
-		$this->addColumn('HISTORY', 'History', 'VARCHAR', true, 8191, '[]');
+		$this->addColumn('HISTORY', 'History', 'LONGVARCHAR', true, null, null);
 		$this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
 		$this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);
 		// validators

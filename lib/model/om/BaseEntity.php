@@ -52,7 +52,6 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 
 	/**
 	 * The value for the history field.
-	 * Note: this column has a database default value of: '[]'
 	 * @var        string
 	 */
 	protected $history;
@@ -93,7 +92,6 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 	{
 		$this->value = 0;
 		$this->nb_day = 0;
-		$this->history = '[]';
 	}
 
 	/**
@@ -391,10 +389,6 @@ abstract class BaseEntity extends BaseObject  implements Persistent
 			}
 
 			if ($this->nb_day !== 0) {
-				return false;
-			}
-
-			if ($this->history !== '[]') {
 				return false;
 			}
 
