@@ -11,7 +11,7 @@
   </head>
   <body>
     <?php echo $sf_content ?>
-    <div id="footer">Octoboard - by <a title="on GitHub" href="https://github.com/KuiKui">Denis Roussel</a> for <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a></div>
+    <div id="footer">by <a title="on GitHub" href="https://github.com/KuiKui">Denis Roussel</a> for <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a></div>
     <?php include_javascripts() ?>
   </body>
 </html>

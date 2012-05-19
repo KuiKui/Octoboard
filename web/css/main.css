@@ -89,4 +89,5 @@ body #content ul li span.negative {
 body #footer {
   text-align:center;
   margin-bottom:15px;
+  opacity:0.5;
 }
