@@ -1,5 +1,5 @@
 <div id="header">
-  <?php echo link_to('Octoboard', '@home', array('title' => 'Octoboard', 'id' => 'octoboard')) ?>
+  <?php echo link_to('Octoboard', '/', array('title' => 'Octoboard', 'id' => 'octoboard')) ?>
   <ul id="menu">
     <?php foreach($stats as $stat => $params): ?>
       <li class="<?php if($currentStat == $stat) echo 'selected'?>"><?php echo link_to($params['menu'], '/'.$stat, array('title' => $params['title'])) ?></li>
@@ -17,5 +17,5 @@
     <li><em><?php echo $info['ghpages']['total'] ?></em> GitHub Pages have been created, which means <em><?php echo $info['ghpages']['by-day'] ?></em> GitHub Pages a day. Yesterday was a <span class="<?php echo $info['ghpages']['gap']['class'] ?>"><?php echo $info['ghpages']['gap']['state'] ?></span> day, they were <?php echo $info['ghpages']['gap']['sign-word-1'] ?> <?php echo $info['ghpages']['gap']['percentage'] ?>% <?php echo $info['ghpages']['gap']['sign-word-2'] ?> average.</li>
     <li><em><?php echo $info['gist']['total'] ?></em> Gists have been created, which means <em><?php echo $info['gist']['by-day'] ?></em> gists a day. Yesterday was a <span class="<?php echo $info['gist']['gap']['class'] ?>"><?php echo $info['gist']['gap']['state'] ?></span> day, they were <?php echo $info['gist']['gap']['sign-word-1'] ?> <?php echo $info['gist']['gap']['percentage'] ?>% <?php echo $info['gist']['gap']['sign-word-2'] ?> average.</li>
   </ul>
-  <p>Octoboard is an <a href="https://github.com/KuiKui/Octoboard">open source project</a> built for the <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a>. Feel free to fork it and add some news stats !<br />By the way, it's a very simple and sketchy project, quickly built with : PHP, MySql, Symfony, <a href="http://lesscss.org/">LESS</a>, <a href="http://www.highcharts.com/">Highcharts</a> and <a href="http://pmsipilot.github.com/jquery-highchartTable-plugin/">highchartTable</a>.</p>
+  <p>Octoboard is an <a href="https://github.com/KuiKui/Octoboard">open source project</a> built for the <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a>. Feel free to fork it and add some new stats !<br />By the way, it's a very simple and sketchy project, quickly built with : PHP, MySql, Symfony, <a href="http://lesscss.org/">LESS</a>, <a href="http://www.highcharts.com/">Highcharts</a> and <a href="http://pmsipilot.github.com/jquery-highchartTable-plugin/">highchartTable</a>.</p>
 </div>

@@ -1,5 +1,5 @@
 <div id="header">
-  <?php echo link_to('Octoboard', '@home', array('title' => 'GitHub activity dashboard', 'id' => 'octoboard')) ?>
+  <?php echo link_to('Octoboard', '/', array('title' => 'GitHub activity dashboard', 'id' => 'octoboard')) ?>
   <ul id="menu">
     <?php foreach($stats as $stat => $params): ?>
       <li class="<?php if($currentStat == $stat) echo 'selected'?>"><?php echo link_to($params['menu'], '/'.$stat, array('title' => $params['title'])) ?></li>

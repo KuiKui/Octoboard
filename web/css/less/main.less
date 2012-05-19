@@ -4,8 +4,8 @@
 @textColor: #b5b5bc;
 @linkColor: #b0b0ee;
 
-@fontFamily: Helvetica,Arial,sans-serif;
-@fontSize: 15px;
+@fontFamily: Helvetica, arial, freesans, clean, sans-serif;
+@fontSize: 14px;
 @lineHeight: 25px;
 
 
@@ -66,7 +66,7 @@ body {
     margin: 30px auto;
     opacity: 1;
     text-align: left;
-    width: 80%;
+    width: 90%;
 
     h2 {
       margin-bottom: 20px;
@@ -80,13 +80,15 @@ body {
     }
 
     ul {
-      background-color: @backgroundColor + #0A0A10;
       list-style: none;
       margin: 0 0 25px 0;
+
+     li {
+      background-color: @backgroundColor + #0A0A10;
       padding: 10px 10px 5px 10px;
       .radius(4px);
 
-     li {
+
         font-size: @fontSize;
         margin-bottom: 10px;
   
@@ -104,6 +106,7 @@ body {
           line-height: @lineHeight;
           padding: 1px 3px;
           .radius(4px);
+          white-space : nowrap;
 
           &.positive {
             background-color: @textColor - #222 + #0C0;
