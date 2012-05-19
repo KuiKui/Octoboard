@@ -36,7 +36,6 @@ body #header ul#menu li:hover { background-color:#3d3d43; }
 body #header ul#menu li a:hover { text-decoration:none; }
 body #content {
   margin:30px auto;
-  min-height:450px;
   opacity:1;
   text-align:left;
   width:80%;
@@ -49,8 +48,13 @@ body #content p {
   margin-bottom:25px;
 }
 body #content ul {
+  background-color:#3d3d43;
   list-style:none;
   margin:0 0 25px 0;
+  padding:10px 10px 5px 10px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
 }
 body #content ul li {
   font-size:15px;
@@ -66,8 +70,22 @@ body #content ul li em {
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
 }
-body #content ul li .positive { color:#93ff9a; }
-body #content ul li .negative { color:#ff939a; }
+body #content ul li span {
+  font-style:normal;
+  line-height:25px;
+  padding:1px 3px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+}
+body #content ul li span.positive {
+  background-color:#93ff9a;
+  color:#333333;
+}
+body #content ul li span.negative {
+  background-color:#ff7178;
+  color:#333333;
+}
 body #footer {
   text-align:center;
   margin-bottom:15px;

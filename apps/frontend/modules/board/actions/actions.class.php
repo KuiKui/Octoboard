@@ -164,12 +164,12 @@ class boardActions extends sfActions
       $info['state'] = 'good';
       $info['class'] = 'positive';
     }
-    else if($gap < 35)
+    else if($gap < -35)
     {
       $info['state'] = 'very bad';
       $info['class'] = 'negative';
     }
-    else if($gap < 15)
+    else if($gap < -15)
     {
       $info['state'] = 'bad';
       $info['class'] = 'negative';

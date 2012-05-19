@@ -64,7 +64,6 @@ body {
 
   #content {
     margin: 30px auto;
-    min-height: 450px;
     opacity: 1;
     text-align: left;
     width: 80%;
@@ -81,10 +80,13 @@ body {
     }
 
     ul {
+      background-color: @backgroundColor + #0A0A10;
       list-style: none;
       margin: 0 0 25px 0;
+      padding: 10px 10px 5px 10px;
+      .radius(4px);
 
-      li {
+     li {
         font-size: @fontSize;
         margin-bottom: 10px;
   
@@ -97,12 +99,21 @@ body {
           .radius(4px);
         }
 
-        .positive {
-          color: @textColor - #222 + #0C0;
-        }
+        span {
+          font-style: normal;
+          line-height: @lineHeight;
+          padding: 1px 3px;
+          .radius(4px);
 
-        .negative {
-          color: @textColor - #222 + #C00;
+          &.positive {
+            background-color: @textColor - #222 + #0C0;
+            color: @backgroundColor;
+          }
+
+          &.negative {
+            background-color: @textColor - #444 + #C00;
+            color: @backgroundColor;
+          }
         }
       }
     }
