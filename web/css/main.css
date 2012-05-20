@@ -139,6 +139,16 @@ body #content ul li:hover {
   background-color:#444455;
 }
 body #content ul li:hover .title { color:#111111; }
+body #content form#languagesForm { margin:10px 0; }
+body #content form#languagesForm label {
+  color:#b5b5bc;
+  display:inline-block;
+  margin:0;
+}
+body #content form#languagesForm select {
+  margin:0;
+  width:80px;
+}
 body #footer {
   text-align:center;
   margin-bottom:15px;

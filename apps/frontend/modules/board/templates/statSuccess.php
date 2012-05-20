@@ -57,4 +57,13 @@
         <?php endforeach; ?>
     </tbody>
   </table>
+  <form action="/<?php echo $currentStat ?>" method="get" id="languagesForm">
+    <label for="languages">Number of displayed languages</label>
+    <select name="languages" id="languages">
+      <option value="0" <?php if($nbLanguages == 0) echo 'selected'; ?>>None</option>
+      <?php for($nbLanguages = 1; $nbLanguages < 10; $nbLanguages++): ?>
+        <option value="<?php echo $nbLanguages ?>" <?php if($nbLanguages == $entity['params']['languages']) echo 'selected'; ?>><?php echo $nbLanguages ?></option>
+      <?php endfor; ?>
+    </select>
+  </form>
 </div>

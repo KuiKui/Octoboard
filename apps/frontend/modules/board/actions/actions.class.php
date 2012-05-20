@@ -53,12 +53,12 @@ class boardActions extends sfActions
     $this->forward404Unless($entity);
 
     $params = $this->stats[$this->currentStat];
-    $params['languages'] = $request->getParameter('details', $params['languages']);
+    $params['languages'] = $request->getParameter('languages', $params['languages']);
 
     $completeHistory = json_decode($entity->getHistory(), true);
     if($params['languages'])
     {
-      $pattern = $this->generatePattern($completeHistory, $request->getParameter('languages', 5));
+      $pattern = $this->generatePattern($completeHistory, $params['languages']);
       $history = $this->sortHistory($completeHistory, $pattern);
     }
     else
