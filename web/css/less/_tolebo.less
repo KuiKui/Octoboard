@@ -34,8 +34,8 @@
   background-image: linear-gradient(@from, @to);
 }
 
-.box-shadow (@x: 0, @y: 0, @blur: 1px, @alpha) {
-  @val: @x @y @blur rgba(0, 0, 0, @alpha);
+.box-shadow (@x: 0, @y: 0, @blur: 1px, @alpha, @r: 0, @g: 0, @b: 0) {
+  @val: @x @y @blur rgba(@r, @g, @b, @alpha);
   box-shadow:         @val;
   -webkit-box-shadow: @val;
   -moz-box-shadow:    @val;

@@ -19,15 +19,25 @@ class boardActions extends sfActions
     ;
 
     $this->info = array();
+    $order = array();
     foreach($entities as $entity)
     {
+      if(!isset($this->stats[$entity->getName()]['home']) || !$this->stats[$entity->getName()]['home'])
+      {
+        continue;
+      }
+
       $gap = $this->getLastDayGapPercentage($entity);
       $this->info[$entity->getName()] = array(
         'total' => number_format($entity->getValue()),
         'by-day' => number_format($entity->getValue() / $entity->getNbDay()),
-        'gap' => $this->getGapInfo($gap)
+        'gap' => $this->getGapInfo($gap),
+        'icon' => $this->stats[$entity->getName()]['icon'],
+        'title' => $this->stats[$entity->getName()]['title']
       );
+      $order[] = $this->stats[$entity->getName()]['order'];
     }
+    array_multisort($order, SORT_ASC, $this->info);
   }
 
   public function executeStat(sfWebRequest $request)

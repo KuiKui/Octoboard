@@ -10,35 +10,62 @@ all:
         menu: 'Global activity'
         title: 'Global activity'
         languages: false
+        home: true
+        icon: 'graph'
+        order: 1
       repository:
         menu: 'Repository'
         title: 'Created repositories'
         languages: false
-      fork:
-        menu: 'Fork'
-        title: 'Forked repositories'
-        languages: true
-      pullrequest:
-        menu: 'Pull Request'
-        title: 'Opened pull requests'
-        languages: true
-      issue:
-        menu: 'Issue'
-        title: 'Opened issues'
-        languages: true
-      watch:
-        menu: 'Watch'
-        title: '"Watch" events'
-        languages: true
+        home: true
+        icon: 'create'
+        order: 2
       public:
         menu: 'Public'
         title: 'Open sourced repositories'
         languages: true
+        home: true
+        icon: 'public-repo'
+        order: 3
+      fork:
+        menu: 'Fork'
+        title: 'Forked repositories'
+        languages: true
+        home: true
+        icon: 'repo-forked'
+        order: 4
+      pullrequest:
+        menu: 'Pull Request'
+        title: 'Opened pull requests'
+        languages: true
+        home: true
+        icon: 'pull-request'
+        order: 5
+      issue:
+        menu: 'Issue'
+        title: 'Opened issues'
+        languages: true
+        home: true
+        icon: 'issue-opened'
+        order: 6
       ghpages:
         menu: 'GH Pages'
         title: 'New GitHub Pages'
         languages: true
+        home: true
+        icon: 'blacktocat'
+        order: 7
       gist:
         menu: 'Gist'
         title: 'Created gists'
         languages: false
+        home: true
+        icon: 'gist'
+        order: 8
+      watch:
+        menu: 'Watch'
+        title: 'Watch events'
+        languages: true
+        home: false
+        icon: 'watching'
+        order: 0
