@@ -1,4 +1,5 @@
 <div id="header">
+  <span class="mega-icon blacktocat"></span>
   <?php echo link_to('Octoboard', '/', array('title' => 'Octoboard', 'id' => 'octoboard')) ?>
   <ul id="menu">
     <?php foreach($stats as $stat => $params): ?>

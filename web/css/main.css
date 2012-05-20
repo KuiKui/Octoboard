@@ -15,6 +15,12 @@ body #header {
   background-color:#232329;
   overflow:hidden;
 }
+body #header .mega-icon {
+  color:#b0b0ee;
+  float:left;
+  font-size:24px;
+  margin:7px 0 0 10px;
+}
 body #header a {
   display:inline-block;
   padding:10px;
@@ -23,6 +29,7 @@ body #header a#octoboard {
   float:left;
   font-weight:bold;
   font-size:20px;
+  padding-left:5px;
 }
 body #header a#octoboard:hover { text-decoration:none; }
 body #header ul#menu {
