@@ -7,7 +7,7 @@ default:
 
   metas:
     title:        Octoboard
-    description:  Status board of GitHub usage
+    description:  GitHub activity dashboard built for the GitHub Data Challenge
     #keywords:     symfony, project
     language:     en
     robots:       index, follow
