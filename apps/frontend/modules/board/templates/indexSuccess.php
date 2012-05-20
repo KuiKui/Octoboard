@@ -23,3 +23,4 @@
   </ul>
   <p>Octoboard is an <a href="https://github.com/KuiKui/Octoboard">open source project</a> built for the <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a>. Feel free to fork it and add some new stats !<br />By the way, it's a very simple and sketchy project, quickly built with : PHP, MySql, Symfony, <a href="http://lesscss.org/">LESS</a>, <a href="http://www.highcharts.com/">Highcharts</a> and <a href="http://pmsipilot.github.com/jquery-highchartTable-plugin/">highchartTable</a>.</p>
 </div>
+<div id="footer">by <a title="on GitHub" href="https://github.com/KuiKui">Denis Roussel</a> for <a href="https://github.com/blog/1118-the-github-data-challenge" title="GitHub Data Challenge">GitHub Data Challenge</a></div>
