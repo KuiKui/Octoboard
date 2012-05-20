@@ -1,11 +1,12 @@
 @font-face{
   font-family:'Octicons Regular';
-  src:url("https://a248.e.akamai.net/assets.github.com/fonts/octicons/octicons-regular-webfont.eot?bcbcd035");
-  src:url("https://a248.e.akamai.net/assets.github.com/fonts/octicons/octicons-regular-webfont.eot?bcbcd035#iefix") format("embedded-opentype"),url("https://a248.e.akamai.net/assets.github.com/fonts/octicons/octicons-regular-webfont.woff?fcb80cfe") format("woff"),url("https://a248.e.akamai.net/assets.github.com/fonts/octicons/octicons-regular-webfont.ttf?c6d8539d") format("truetype"),url("https://a248.e.akamai.net/assets.github.com/fonts/octicons/octicons-regular-webfont.svg?2fc2af83#newFontRegular") format("svg");
+  src:url("../vendor/font/octicons-regular-webfont.eot");
+  src:url("../vendor/font/octicons-regular-webfont.eot#iefix") format("embedded-opentype"),
+    url("../vendor/font/octicons-regular-webfont.woff") format("woff"),
+    url("../vendor/font/octicons-regular-webfont.ttf") format("truetype");
   font-weight:normal;
   font-style:normal;
 }
-
 
 .mini-icon,.mega-icon {
   font-family:'Octicons Regular';
