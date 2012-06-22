@@ -5,12 +5,12 @@ $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', '
 sfContext::createInstance($configuration);
 
 $emotions = array(
-  'anger'     => '/(a+rgh|angry|annoyed|annoying|appalled|bitter|cranky|hate|hating|mad)/i',
-  'joy'       => '/(yes|yay|hallelujah|hurray|bingo|amused|cheerful|excited|glad|proud)/i',
-  'amusement' => '/(ha(ha)+|he(he)+|lol|rofl|lmfao|lulz|lolz|rotfl|lawl|hilarious)/i',
-  'surprise'  => '/(yikes|gosh|baffled|stumped|surprised|shocked)/i',
-  'issues'    => '/(bug|fix|issue)|corrected/i',
-  'swearing'  => '/(wtf|wth|omfg|hell|ass|bitch|bullshit|bloody|fucking?|shit+y?|crap+y?)|(fuck|damn|piss|screw|suck)e?d?/i'
+  'anger'     => '/\b(a+rgh|angry|annoyed|annoying|appalled|bitter|cranky|hate|hating|mad)\b/i',
+  'joy'       => '/\b(yes|yay|hallelujah|hurray|bingo|amused|cheerful|excited|glad|proud)\b/i',
+  'amusement' => '/\b(ha(ha)+|he(he)+|lol|rofl|lmfao|lulz|lolz|rotfl|lawl|hilarious)\b/i',
+  'surprise'  => '/\b(yikes|gosh|baffled|stumped|surprised|shocked)\b/i',
+  'issues'    => '/\b(bug|fix|issue)|corrected/i',
+  'swearing'  => '/\b(wtf|wth|omfg|hell|ass|bitch|bullshit|bloody|fucking?|shit+y?|crap+y?)\b|\b(fuck|damn|piss|screw|suck)e?d?\b/i'
 );
 
 if(count($argv) < 2)
