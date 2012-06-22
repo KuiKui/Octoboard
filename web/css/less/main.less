@@ -116,6 +116,7 @@ body {
 
             &.top {
               .radius-top(4px);
+              text-transform: capitalize;
 
               span.mini-icon {
                 margin-right: 5px;
@@ -177,6 +178,26 @@ body {
 
           .title {
             color: @backgroundColor - #222;
+          }
+        }
+      }
+
+      &#emotions {
+        li {
+          width: 143px;
+
+          .language {
+            position: relative;
+
+            &.best {
+              border-bottom: 1px dashed @textColor - #555;
+            }
+
+            span {
+              position: absolute;
+              top: 10px;
+              left: 5px;
+            }
           }
         }
       }

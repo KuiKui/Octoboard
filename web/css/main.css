@@ -89,6 +89,7 @@ body #content ul li div.title.top {
   -moz-border-radius-topleft:5px;
   border-top-right-radius:5px;
   border-top-left-radius:5px;
+  text-transform:capitalize;
 }
 body #content ul li div.title.top span.mini-icon { margin-right:5px; }
 body #content ul li div.info div.total { font-size:30px; }
@@ -139,6 +140,14 @@ body #content ul li:hover {
   background-color:#444455;
 }
 body #content ul li:hover .title { color:#111111; }
+body #content ul#emotions li { width:143px; }
+body #content ul#emotions li .language { position:relative; }
+body #content ul#emotions li .language.best { border-bottom:1px dashed #606067; }
+body #content ul#emotions li .language span {
+  position:absolute;
+  top:10px;
+  left:5px;
+}
 body #content form#languagesForm { margin:10px 0; }
 body #content form#languagesForm label {
   color:#b5b5bc;
