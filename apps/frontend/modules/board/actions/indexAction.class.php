@@ -18,9 +18,9 @@ class indexAction extends sfAction
       ->find()
     ;
 
-    $this->info = array();
+    $this->info     = array();
     $this->emotions = array();
-    $order = array();
+    $order          = array();
 
     foreach($entities as $entity)
     {
@@ -36,11 +36,11 @@ class indexAction extends sfAction
 
       $gap = $this->getLastDayGapPercentage($entity);
       $this->info[$entity->getName()] = array(
-        'total' => number_format($entity->getValue()),
+        'total'  => number_format($entity->getValue()),
         'by-day' => number_format($entity->getValue() / $entity->getNbDay()),
-        'gap' => $this->getGapInfo($gap),
-        'icon' => $this->stats[$entity->getName()]['icon'],
-        'title' => $this->stats[$entity->getName()]['title']
+        'gap'    => $this->getGapInfo($gap),
+        'icon'   => $this->stats[$entity->getName()]['icon'],
+        'title'  => $this->stats[$entity->getName()]['title']
       );
       $order[] = $this->stats[$entity->getName()]['order'];
     }
@@ -55,10 +55,10 @@ class indexAction extends sfAction
       return 0;
     }
 
-    $lastDay = array_slice($history, -1, 1);
-    $lastDayCount = $lastDay[key($lastDay)]['c'];
-    $average = ($entity->getNbDay()) ? $entity->getValue() / $entity->getNbDay() : 0;
-    $gap = $lastDayCount - $average;
+    $lastDay       = array_slice($history, -1, 1);
+    $lastDayCount  = $lastDay[key($lastDay)]['c'];
+    $average       = ($entity->getNbDay()) ? $entity->getValue() / $entity->getNbDay() : 0;
+    $gap           = $lastDayCount - $average;
     $gapPercentage = round(($average) ? $gap * 100 / $average : 0, 0);
 
     return $gapPercentage;
@@ -67,10 +67,10 @@ class indexAction extends sfAction
   public function getGapInfo($gap)
   {
     $info = array(
-      'state' => 'normal',
+      'state'       => 'normal',
       'sign-word-1' => '',
       'sign-word-2' => '',
-      'class' => 'normal'
+      'class'       => 'normal'
     );
 
     if($gap > 0)
@@ -84,25 +84,20 @@ class indexAction extends sfAction
       $info['sign-word-2'] = 'below';
     }
 
-    if($gap > 35)
-    {
-      $info['state'] = 'very good';
-      $info['class'] = 'positive';
-    }
-    else if($gap > 15)
+    if($gap > 15)
     {
       $info['state'] = 'good';
       $info['class'] = 'positive';
     }
-    else if($gap < -35)
-    {
-      $info['state'] = 'very bad';
-      $info['class'] = 'negative';
-    }
-    else if($gap < -15)
+    elseif($gap < -15)
     {
       $info['state'] = 'bad';
       $info['class'] = 'negative';
+    }
+
+    if(abs($gap) > 35)
+    {
+      $info['state'] = 'very '.$info['state'];
     }
 
     $info['percentage'] = abs($gap);
@@ -123,11 +118,12 @@ class indexAction extends sfAction
 
     $lastDay  = array_slice($history, -1, 1);
     $emotions = $lastDay[key($lastDay)];
+
     foreach($emotions as $emotion => $languages)
     {
       if(count($languages) > 1)
       {
-        $languagesLabel = array_keys($languages);
+        $languagesLabel             = array_keys($languages);
         $results[$emotion]['first'] = $languagesLabel[count($languagesLabel) - 1];
         $results[$emotion]['last']  = $languagesLabel[0];
       }
